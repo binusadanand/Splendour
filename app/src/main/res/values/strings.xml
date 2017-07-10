@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">splendours</string>
+
+    <string name="empty_list_text">No Data Available</string>
+    <string name="search_label">Search</string>
+
+</resources>
