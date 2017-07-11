@@ -49,7 +49,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
 
         setTitle(R.string.search_label);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new HomeScreenAdapter();
+        mAdapter = new HomeScreenAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         mPresenter = new HomeScreenPresenter(this);

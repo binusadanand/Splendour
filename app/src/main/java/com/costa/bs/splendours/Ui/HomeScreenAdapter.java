@@ -1,6 +1,10 @@
 package com.costa.bs.splendours.Ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +21,11 @@ import java.util.ArrayList;
 public class HomeScreenAdapter extends RecyclerView.Adapter<SearchResultViewHolder>{
 
     private ArrayList<Venue> mData;
+    private Context mContext;
 
-    HomeScreenAdapter()  {
+    HomeScreenAdapter(Context aContext)  {
         mData =  new ArrayList<>();
+        mContext = aContext;
     }
 
     public void upDate(ArrayList<Venue> aList) {
@@ -36,7 +42,7 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<SearchResultViewHold
 
     @Override
     public void onBindViewHolder(SearchResultViewHolder holder, int position) {
-        Venue aItem = mData.get(position);
+        final Venue aItem = mData.get(position);
 
         if (aItem != null) {
 
@@ -67,6 +73,23 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<SearchResultViewHold
 
             }
 
+            if (!TextUtils.isEmpty(aItem.url)) {
+
+                holder.mLinkFl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String aUrl = aItem.url;
+                        if (!aUrl.startsWith("http://") && !aUrl.startsWith("https://")) {
+                            aUrl = "http://" + aUrl;
+                        }
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aUrl));
+                        mContext.startActivity(browserIntent);
+                    }
+                });
+                holder.mLinkFl.setVisibility(View.VISIBLE);
+            } else {
+                holder.mLinkFl.setVisibility(View.GONE);
+            }
         }
     }
 
