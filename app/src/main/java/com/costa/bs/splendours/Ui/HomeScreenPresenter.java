@@ -1,7 +1,22 @@
 package com.costa.bs.splendours.Ui;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
 import com.costa.bs.splendours.ApiServices.Api;
+import com.costa.bs.splendours.ApiServices.EndpointConstants;
 import com.costa.bs.splendours.ApiServices.Provider;
+import com.costa.bs.splendours.Models.SearchResult;
+
+import java.util.Locale;
+
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -14,23 +29,29 @@ import rx.subscriptions.CompositeSubscription;
 public class HomeScreenPresenter {
     private Api mApiService;
     private final HomeScreenView mView;
-    private CompositeSubscription mSubscriptions;
 
-    public HomeScreenPresenter(HomeScreenView aView) {
-        mView = aView;
-        mSubscriptions = new CompositeSubscription();
+    public HomeScreenPresenter(HomeScreenActivity aActivity) {
+        mView = aActivity;
         mApiService = Provider.getApiService();
-
     }
 
-    public void getWeatherDetails() {
+    public void getSearchResults(double aLat, double aLong) {
 
-        mView.showProgress();
+        mView.showProgress();;
 
-        Subscription event = mApiService.searchVenue("london,uk", "json", EndPointConstants.APP_ID_VALUE)
+        StringBuilder sb =  new StringBuilder();
+        sb.append(String.format(Locale.ENGLISH, "%2f",aLat));
+        sb.append(",");
+        sb.append(String.format(Locale.ENGLISH, "%2f",aLong));
+
+
+        mApiService.searchVenue(
+                EndpointConstants.CLIENT_ID,
+                EndpointConstants.CLIENT_SECRET,
+                sb.toString())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WeatherObj>() {
+                .subscribe(new Subscriber<SearchResult>() {
                     @Override
                     public void onCompleted() {
 
@@ -43,9 +64,9 @@ public class HomeScreenPresenter {
                     }
 
                     @Override
-                    public void onNext(WeatherObj aWeatherObj) {
+                    public void onNext(SearchResult aResult) {
                         mView.dismissProgress();
-                        mView.showDetails(aWeatherObj);
+                        mView.showDetails(aResult);
                     }
                 });
 

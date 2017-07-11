@@ -5,5 +5,5 @@ package com.costa.bs.splendours.Models;
  */
 
 public class SearchResult {
-    VenueResponse response;
+    public VenueResponse response;
 }
