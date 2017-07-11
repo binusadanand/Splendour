@@ -12,9 +12,11 @@ import rx.Observable;
 
 public interface Api {
     @GET("v2/venues/search")
-    Observable<SearchResult> searchVenue(@Query(EndpointConstants.CLIENT_ID_KEY) String aClientID,
-                                        @Query(EndpointConstants.CLIENT_SECRET_KEY) String aClientSecret,
-                                        @Query(EndpointConstants.LATLONG) String aID);
+    Observable<SearchResult> searchVenue(
+            @Query(EndpointConstants.LATLONG) String aID,
+            @Query(EndpointConstants.CLIENT_ID_KEY) String aClientID,
+            @Query(EndpointConstants.CLIENT_SECRET_KEY) String aClientSecret,
+            @Query(EndpointConstants.VERSION_NO) String aVersionNo);
 
     @GET("v2/venues/search")
     Observable<SearchResult> searchVenueWithTerm(@Query(EndpointConstants.CLIENT_ID_KEY) String aClientID,

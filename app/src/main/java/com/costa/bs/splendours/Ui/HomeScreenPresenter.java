@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -14,6 +15,8 @@ import com.costa.bs.splendours.ApiServices.EndpointConstants;
 import com.costa.bs.splendours.ApiServices.Provider;
 import com.costa.bs.splendours.Models.SearchResult;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import rx.Subscriber;
@@ -40,15 +43,18 @@ public class HomeScreenPresenter {
         mView.showProgress();;
 
         StringBuilder sb =  new StringBuilder();
-        sb.append(String.format(Locale.ENGLISH, "%2f",aLat));
+        sb.append(String.format(Locale.ENGLISH, "%.2f",aLat));
         sb.append(",");
-        sb.append(String.format(Locale.ENGLISH, "%2f",aLong));
+        sb.append(String.format(Locale.ENGLISH, "%.2f",aLong));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+        String aCurrentDate = sdf.format(new Date());
 
         mApiService.searchVenue(
+                sb.toString(),
                 EndpointConstants.CLIENT_ID,
                 EndpointConstants.CLIENT_SECRET,
-                sb.toString())
+                aCurrentDate)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchResult>() {

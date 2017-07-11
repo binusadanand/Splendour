@@ -59,7 +59,6 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
     @Override
     protected void  onResume() {
         super.onResume();
-
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -69,9 +68,19 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
                     MY_PERMISSIONS_REQUEST);
 
         } else {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            checkLocationAndSearch();
+        }
+    }
+
+    private void checkLocationAndSearch() {
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (location != null) {
             mPresenter.getSearchResults(location.getLatitude(), location.getLongitude());
+        } else {
+            Toast.makeText(this,"No location info available in this device", Toast.LENGTH_LONG);
         }
 
     }
@@ -115,13 +124,8 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    mPresenter.getSearchResults(location.getLatitude(), location.getLongitude());
-
+                    checkLocationAndSearch();
                 } else {
-
                     Toast.makeText(this, "Location permission required for the app to work", Toast.LENGTH_LONG);
                 }
                 return;

@@ -43,12 +43,28 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<SearchResultViewHold
             holder.mTitleTv.setText(aItem.name);
             if ((aItem.location != null)
                     && (aItem.location.formattedAddress != null)) {
-                holder.mAddressOneTv.setText(aItem.location.formattedAddress.get(0));
-                holder.mAddressTwoTv.setText(aItem.location.formattedAddress.get(1));
-                holder.mAddressThreeTv.setText(aItem.location.formattedAddress.get(2));
-                holder.mAddressOneTv.setVisibility(View.VISIBLE);
-                holder.mAddressTwoTv.setVisibility(View.VISIBLE);
-                holder.mAddressThreeTv.setVisibility(View.VISIBLE);
+
+                if (aItem.location.formattedAddress.size() >= 1) {
+                    holder.mAddressOneTv.setText(aItem.location.formattedAddress.get(0));
+                    holder.mAddressOneTv.setVisibility(View.VISIBLE);
+                } else {
+                    holder.mAddressOneTv.setVisibility(View.GONE);
+                }
+
+                if (aItem.location.formattedAddress.size() >= 2) {
+                    holder.mAddressTwoTv.setText(aItem.location.formattedAddress.get(1));
+                    holder.mAddressTwoTv.setVisibility(View.VISIBLE);
+                } else {
+                    holder.mAddressTwoTv.setVisibility(View.GONE);
+                }
+
+                if (aItem.location.formattedAddress.size() >= 3) {
+                    holder.mAddressThreeTv.setText(aItem.location.formattedAddress.get(2));
+                    holder.mAddressThreeTv.setVisibility(View.VISIBLE);
+                } else {
+                    holder.mAddressThreeTv.setVisibility(View.GONE);
+                }
+
             }
 
         }

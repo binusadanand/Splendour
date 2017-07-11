@@ -14,5 +14,6 @@ public final class EndpointConstants {
     public static final String QUERY = "query";
     public static final String CLIENT_ID_KEY = "client_id";
     public static final String CLIENT_SECRET_KEY = "client_secret";
+    public static final String VERSION_NO = "v";
 
 }
