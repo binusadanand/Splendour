@@ -75,12 +75,15 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
     private void checkLocationAndSearch() {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (location == null) {
+            location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
 
         if (location != null) {
             mPresenter.getSearchResults(location.getLatitude(), location.getLongitude());
         } else {
-            Toast.makeText(this,"No location info available in this device", Toast.LENGTH_LONG);
+            Toast.makeText(this,"No location info available in this device", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -126,7 +129,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenV
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkLocationAndSearch();
                 } else {
-                    Toast.makeText(this, "Location permission required for the app to work", Toast.LENGTH_LONG);
+                    Toast.makeText(this, "Location permission required for the app to work", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
