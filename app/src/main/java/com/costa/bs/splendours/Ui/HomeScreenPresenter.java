@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import com.costa.bs.splendours.ApiServices.Api;
 import com.costa.bs.splendours.ApiServices.EndpointConstants;
 import com.costa.bs.splendours.ApiServices.Provider;
+import com.costa.bs.splendours.BuildConfig;
 import com.costa.bs.splendours.Models.SearchResult;
 
 import java.text.SimpleDateFormat;
@@ -52,8 +54,8 @@ public class HomeScreenPresenter {
 
         mApiService.searchVenue(
                 sb.toString(),
-                EndpointConstants.CLIENT_ID,
-                EndpointConstants.CLIENT_SECRET,
+                BuildConfig.CLIENT_ID,
+                BuildConfig.CLIENT_SECRET,
                 aCurrentDate)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -5,8 +5,6 @@ package com.costa.bs.splendours.ApiServices;
  */
 
 public final class EndpointConstants {
-    public static final String CLIENT_ID = "2G1H33HELIFMAMQHUERT1FEBXU1UM2ZKMU112AGM4EWGN1Y2";
-    public static final String CLIENT_SECRET = "RCALJ3B1FSD3THJUYAXOQTPY4ATUYIJT0BDR5GS2VWFRZSZL";
 
     public static final String BASE = "https://api.foursquare.com/";
 
